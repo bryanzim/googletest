@@ -63,7 +63,7 @@
 # include <sys/time.h>  // NOLINT
 # include <unistd.h>
 
-#if GTEST_OS_LINUX
+#elif GTEST_OS_LINUX
 
 // FIXME: Use autoconf to detect availability of
 // gettimeofday().
