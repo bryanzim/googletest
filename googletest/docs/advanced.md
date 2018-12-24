@@ -150,7 +150,7 @@ c is 10
 >
 > 1.  If you see a compiler error "no matching function to call" when using
 >     `ASSERT_PRED*` or `EXPECT_PRED*`, please see
->     [this](faq.md#OverloadedPredicate) for how to resolve it.
+>     [this](faq.md#the-compiler-complains-no-matching-function-to-call-when-i-use-assert_pred-how-do-i-fix-it) for how to resolve it.
 > 1.  Currently we only provide predicate assertions of arity <= 5. If you need
 >     a higher-arity assertion, let [us](https://github.com/google/googletest/issues) know.
 
@@ -423,7 +423,7 @@ and you're ready to go.
 
 ### More String Assertions
 
-(Please read the [previous](#AssertThat) section first if you haven't.)
+(Please read the [previous](#asserting-using-gmock-matchers) section first if you haven't.)
 
 You can use the gMock [string matchers](../../googlemock/docs/CheatSheet.md#string-matchers)
 with `EXPECT_THAT()` or `ASSERT_THAT()` to do more string comparison tricks
@@ -572,7 +572,7 @@ namespace foo {
 class Bar {  // We want googletest to be able to print instances of this.
 ...
   // Create a free inline friend function.
-  friend ::std::ostream& operator<<(::std::ostream& os, const Bar& bar) {
+  friend std::ostream& operator<<(std::ostream& os, const Bar& bar) {
     return os << bar.DebugString();  // whatever needed to print bar to os
   }
 };
@@ -580,7 +580,7 @@ class Bar {  // We want googletest to be able to print instances of this.
 // If you can't declare the function in the class it's important that the
 // << operator is defined in the SAME namespace that defines Bar.  C++'s look-up
 // rules rely on that.
-::std::ostream& operator<<(::std::ostream& os, const Bar& bar) {
+std::ostream& operator<<(std::ostream& os, const Bar& bar) {
   return os << bar.DebugString();  // whatever needed to print bar to os
 }
 
@@ -601,7 +601,7 @@ namespace foo {
 
 class Bar {
   ...
-  friend void PrintTo(const Bar& bar, ::std::ostream* os) {
+  friend void PrintTo(const Bar& bar, std::ostream* os) {
     *os << bar.DebugString();  // whatever needed to print bar to os
   }
 };
@@ -609,7 +609,7 @@ class Bar {
 // If you can't declare the function in the class it's important that PrintTo()
 // is defined in the SAME namespace that defines Bar.  C++'s look-up rules rely
 // on that.
-void PrintTo(const Bar& bar, ::std::ostream* os) {
+void PrintTo(const Bar& bar, std::ostream* os) {
   *os << bar.DebugString();  // whatever needed to print bar to os
 }
 
@@ -649,7 +649,7 @@ _death tests_. More generally, any test that checks that a program terminates
 Note that if a piece of code throws an exception, we don't consider it "death"
 for the purpose of death tests, as the caller of the code could catch the
 exception and avoid the crash. If you want to verify exceptions thrown by your
-code, see [Exception Assertions](#ExceptionAssertions).
+code, see [Exception Assertions](#exception-assertions).
 
 If you want to test `EXPECT_*()/ASSERT_*()` failures in your test code, see
 Catching Failures
@@ -1147,7 +1147,7 @@ test has at least one failure of either kind.
 
 In your test code, you can call `RecordProperty("key", value)` to log additional
 information, where `value` can be either a string or an `int`. The *last* value
-recorded for a key will be emitted to the [XML output](#XmlReport) if you
+recorded for a key will be emitted to the [XML output](#generating-an-xml-report) if you
 specify one. For example, the test
 
 ```c++
@@ -1424,7 +1424,7 @@ will have these names:
 *   `InstantiationName/FooTest.HasBlahBlah/1` for `"miny"`
 *   `InstantiationName/FooTest.HasBlahBlah/2` for `"moe"`
 
-You can use these names in [`--gtest_filter`](#TestFilter).
+You can use these names in [`--gtest_filter`](#running-a-subset-of-the-tests).
 
 This statement will instantiate all tests from `FooTest` again, each with
 parameter values `"cat"` and `"dog"`:
@@ -1487,7 +1487,7 @@ returns the value of `testing::PrintToString(GetParam())`. It does not work for
 
 NOTE: test names must be non-empty, unique, and may only contain ASCII
 alphanumeric characters. In particular, they [should not contain
-underscores](https://g3doc.corp.google.com/third_party/googletest/googletest/g3doc/faq.md#no-underscores).
+underscores](https://github.com/google/googletest/blob/master/googletest/docs/faq.md#why-should-test-case-names-and-test-names-not-contain-underscore).
 
 ```c++
 class MyTestCase : public testing::TestWithParam<int> {};
@@ -1674,7 +1674,7 @@ To test them, we use the following special techniques:
 *   Both static functions and definitions/declarations in an unnamed namespace
     are only visible within the same translation unit. To test them, you can
     `#include` the entire `.cc` file being tested in your `*_test.cc` file.
-    (#including `.cc` files is not a good way to reuse code - you should not do
+    (including `.cc` files is not a good way to reuse code - you should not do
     this in production code!)
 
     However, a better approach is to move the private code into the
@@ -2120,7 +2120,7 @@ $ foo_test --gtest_repeat=1000 --gtest_filter=FooBar.*
 Repeat the tests whose name matches the filter 1000 times.
 ```
 
-If your test program contains [global set-up/tear-down](#GlobalSetUp) code, it
+If your test program contains [global set-up/tear-down](#global-set-up-and-tear-down) code, it
 will be repeated in each iteration as well, as the flakiness may be in it. You
 can also specify the repeat count by setting the `GTEST_REPEAT` environment
 variable.

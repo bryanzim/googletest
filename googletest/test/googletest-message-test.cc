@@ -26,8 +26,7 @@
 // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
-// Author: wan@google.com (Zhanyong Wan)
+
 //
 // Tests for the Message class.
 
@@ -86,7 +85,7 @@ TEST(MessageTest, StreamsPointer) {
 
 // Tests streaming a NULL non-char pointer.
 TEST(MessageTest, StreamsNullPointer) {
-  int* p = NULL;
+  int* p = nullptr;
   EXPECT_EQ("(null)", (Message() << p).GetString());
 }
 
@@ -97,7 +96,7 @@ TEST(MessageTest, StreamsCString) {
 
 // Tests streaming a NULL C string.
 TEST(MessageTest, StreamsNullCString) {
-  char* p = NULL;
+  char* p = nullptr;
   EXPECT_EQ("(null)", (Message() << p).GetString());
 }
 

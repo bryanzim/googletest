@@ -26,12 +26,27 @@
 // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
-// Author: wan@google.com (Zhanyong Wan)
+
 
 #include <iostream>
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
+
+#ifdef ARDUINO
+void setup() {
+  // Since Arduino doesn't have a command line, fake out the argc/argv arguments
+  int argc = 1;
+  const auto arg0 = "PlatformIO";
+  char* argv0 = const_cast<char*>(arg0);
+  char** argv = &argv0;
+
+  // Since Google Mock depends on Google Test, InitGoogleMock() is
+  // also responsible for initializing Google Test.  Therefore there's
+  // no need for calling testing::InitGoogleTest() separately.
+  testing::InitGoogleMock(&argc, argv);
+}
+void loop() { RUN_ALL_TESTS(); }
+#else
 
 // MS C++ compiler/linker has a bug on Windows (not on Windows CE), which
 // causes a link error when _tmain is defined in a static library and UNICODE
@@ -53,3 +68,4 @@ GTEST_API_ int main(int argc, char** argv) {
   testing::InitGoogleMock(&argc, argv);
   return RUN_ALL_TESTS();
 }
+#endif

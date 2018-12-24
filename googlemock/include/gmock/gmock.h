@@ -26,8 +26,7 @@
 // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
-// Author: wan@google.com (Zhanyong Wan)
+
 
 // Google Mock - a framework for writing C++ mock classes.
 //
@@ -59,13 +58,14 @@
 
 #include "gmock/gmock-actions.h"
 #include "gmock/gmock-cardinalities.h"
+#include "gmock/gmock-function-mocker.h"
 #include "gmock/gmock-generated-actions.h"
 #include "gmock/gmock-generated-function-mockers.h"
 #include "gmock/gmock-generated-matchers.h"
-#include "gmock/gmock-generated-nice-strict.h"
 #include "gmock/gmock-matchers.h"
 #include "gmock/gmock-more-actions.h"
 #include "gmock/gmock-more-matchers.h"
+#include "gmock/gmock-nice-strict.h"
 #include "gmock/internal/gmock-internal-utils.h"
 
 namespace testing {

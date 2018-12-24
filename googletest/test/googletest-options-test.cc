@@ -27,7 +27,6 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//
 // Google Test UnitTestOptions tests
 //
 // This file tests classes and functions used internally by
@@ -103,11 +102,16 @@ TEST(OutputFileHelpersTest, GetCurrentExecutableName) {
       _strcmpi("gtest-options-ex_test", exe_str.c_str()) == 0 ||
       _strcmpi("gtest_all_test", exe_str.c_str()) == 0 ||
       _strcmpi("gtest_dll_test", exe_str.c_str()) == 0;
+#elif GTEST_OS_OS2
+  const bool success =
+      strcasecmp("googletest-options-test", exe_str.c_str()) == 0 ||
+      strcasecmp("gtest-options-ex_test", exe_str.c_str()) == 0 ||
+      strcasecmp("gtest_all_test", exe_str.c_str()) == 0 ||
+      strcasecmp("gtest_dll_test", exe_str.c_str()) == 0;
 #elif GTEST_OS_FUCHSIA
   const bool success = exe_str == "app";
 #else
-  // TODO(wan@google.com): remove the hard-coded "lt-" prefix when
-  //   Chandler Carruth's libtool replacement is ready.
+  // FIXME: remove the hard-coded "lt-" prefix when libtool replacement is ready
   const bool success =
       exe_str == "googletest-options-test" ||
       exe_str == "gtest_all_test" ||
@@ -122,7 +126,7 @@ TEST(OutputFileHelpersTest, GetCurrentExecutableName) {
 
 class XmlOutputChangeDirTest : public Test {
  protected:
-  virtual void SetUp() {
+  void SetUp() override {
     original_working_dir_ = FilePath::GetCurrentDir();
     posix::ChDir("..");
     // This will make the test fail if run from the root directory.
@@ -130,7 +134,7 @@ class XmlOutputChangeDirTest : public Test {
               FilePath::GetCurrentDir().string());
   }
 
-  virtual void TearDown() {
+  void TearDown() override {
     posix::ChDir(original_working_dir_.string().c_str());
   }
 

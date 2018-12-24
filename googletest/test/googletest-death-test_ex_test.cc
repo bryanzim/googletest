@@ -26,8 +26,7 @@
 // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
-// Author: vladl@google.com (Vlad Losev)
+
 //
 // Tests that verify interaction of exceptions and death tests.
 
@@ -60,7 +59,7 @@ TEST(CxxExceptionDeathTest, ExceptionIsFailure) {
 
 class TestException : public std::exception {
  public:
-  virtual const char* what() const throw() { return "exceptional message"; }
+  const char* what() const throw() override { return "exceptional message"; }
 };
 
 TEST(CxxExceptionDeathTest, PrintsMessageForStdExceptions) {
